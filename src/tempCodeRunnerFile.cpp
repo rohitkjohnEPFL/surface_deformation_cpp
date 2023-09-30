@@ -1,7 +1,7 @@
 #include <iostream>
 #include "body.hpp"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     Quaternion q1(1.0, 2.0, 3.0, 4.0);
     Quaternion q2(2.0, 3.0, 4.0, 5.0);
@@ -21,12 +21,14 @@ int main(int argc, char* argv[])
         std::cout << q4.getComponents()[i] << " ";
     }
 
-    Vector3D axis(1, 1, 0);
-
-    AxisAngle axisAngle(1.0, axis);
+    AxisAngle axisAngle(1.0, {1.0, 2.0, 3.0});
     std::cout << std::endl;
     std::cout << axisAngle.get_Theta() << std::endl;
 
-    Vector3D axis2 = axisAngle.get_Axis();
-    std::cout << axis2.get_x() << " " << axis2.get_y() << " " << axis2.get_z();
+    std::array<double, 3> axis = axisAngle.get_Axis();
+    for (int i = 0; i < 3; i++)
+    {
+        std::cout << axis[i] << " ";
+    }    
+
 }

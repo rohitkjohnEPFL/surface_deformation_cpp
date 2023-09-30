@@ -1,11 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
 
-# set the project name
-project(surfaceDeformation)
+# Your project name
+project(MyRoboticsProject)
 
-# specify the C++ standard
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+# Add GoogleTest
+enable_testing()
+find_package(GTest CONFIG REQUIRED)
 
-# add the executable
-add_executable(surfaceDeformation main.cpp body.cpp)
+# Your existing settings
+add_executable(MyRoboticsProject src/main.cpp src/body.cpp)
+target_link_libraries(MyRoboticsProject GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+
+# Add your test cpp file
+add_executable(runUnitTests tests/body_test.cpp)
+
+# Link test executable against GoogleTest
+target_link_libraries(runUnitTests GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+add_test(runUnitTests runUnitTests)

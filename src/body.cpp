@@ -82,19 +82,13 @@ Quaternion Quaternion::operator/(const double &scalar) const
 AxisAngle Quaternion::conv_toAxisAngle() const
 {
     double theta = 2 * acos(a);
-    std::array<double, 3> axis = {b, c, d};
+    Vector3D axis = {b, c, d};
     return AxisAngle(theta, axis);
 }
 
-// constructor for axis angle
-AxisAngle::AxisAngle(double theta, std::array<double, 3> axis) : theta(theta) 
-{
-    // normalise the axis
-    this->axis = normalize(axis);
-}
 
 // get the axis of rotation
-std::array<double, 3> AxisAngle::get_Axis() const 
+Vector3D AxisAngle::get_Axis() const 
 {
     return axis;
 }
@@ -102,15 +96,27 @@ std::array<double, 3> AxisAngle::get_Axis() const
 // get the angle of rotation
 double AxisAngle::get_Theta() const 
 {
-    return theta;
+    return angle;
 }
 
 // convert axis angle to quaternion
 Quaternion AxisAngle::conv_toQuaternion() const 
 {
-    double a = cos(theta/2);
-    double b = axis[0] * sin(theta/2);
-    double c = axis[1] * sin(theta/2);
-    double d = axis[2] * sin(theta/2);
+    double a = cos(angle/2);
+    double b = axis.get_x() * sin(angle/2);
+    double c = axis.get_y() * sin(angle/2);
+    double d = axis.get_z() * sin(angle/2);
     return Quaternion(a, b, c, d);
+}
+
+void Body::reset_ForceTorque()
+{
+    force.set_ToZero();
+    torque.set_ToZero();
+}
+
+// add force to body
+void Body::add_Force(Vector3D force_new)
+{
+    force = force + force_new;
 }
